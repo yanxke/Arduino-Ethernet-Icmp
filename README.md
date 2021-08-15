@@ -25,6 +25,10 @@ Synchronus Version is TESTED and ALREADY WORKED, but the asynchronus version ret
 
 I also added some example if you want to use some DHCP using the Ethernet Library. Feel free to ask, create issue, pull request or make fork repository if you want.
 
+## Issue
+
+- Some memory leakage warning found if using Ethernet Library Version 2.0.0, try using newest version of Ethernet Library on Github
+
 ## Github Related Issues Link
 
 [https://github.com/arduino-libraries/Ethernet/issues/105](https://github.com/arduino-libraries/Ethernet/issues/105)
