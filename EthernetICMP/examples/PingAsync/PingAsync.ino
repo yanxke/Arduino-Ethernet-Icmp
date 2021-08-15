@@ -28,7 +28,7 @@
  */
 #include <SPI.h>
 #include <Ethernet.h>
-#include <ICMPPing.h>
+#include <EthernetICMP.h>
 
 
 /* ************ Configuration ************** */
@@ -39,13 +39,13 @@
 
 // PING_REMOTE_IP -- remote host to ping (see NOTE above)
 // so, e.g., 162.220.162.142 becomes 162, 220, 162, 142
-#define PING_REMOTE_IP      162, 220, 162, 142
+#define PING_REMOTE_IP      1, 1, 1, 1
 
 
 // TEST_USING_STATIC_IP -- (see NOTE above)
 // leave undefined (commented out)
 // to use DHCP instead.
-// #define TEST_USING_STATIC_IP  192, 168, 2, 177
+#define TEST_USING_STATIC_IP  192, 168, 2, 177
 
 
 
@@ -55,6 +55,8 @@
 #define PING_REQUEST_TIMEOUT_MS     2500
 
 #define LOCAL_MAC_ADDRESS     0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
+
+#define ICMPPING_ASYNCH_ENABLE
 
 #ifndef ICMPPING_ASYNCH_ENABLE
 #error "Asynchronous functions only available if ICMPPING_ASYNCH_ENABLE is defined -- see ICMPPing.h"
@@ -73,7 +75,7 @@ IPAddress pingAddr(PING_REMOTE_IP); // ip address to ping
 SOCKET pingSocket = 0;
 
 char buffer [256];
-ICMPPing ping(pingSocket, 1);
+EthernetICMPPing ping(pingSocket, 1);
 
 void dieWithMessage(const char * msg)
 {
@@ -112,7 +114,7 @@ void setup()
 
   // increase the default time-out, if needed, assuming a bad
   // connection or whatever.
-  ICMPPing::setTimeout(PING_REQUEST_TIMEOUT_MS);
+  EthernetICMPPing::setTimeout(PING_REQUEST_TIMEOUT_MS);
 
 }
 
@@ -140,7 +142,7 @@ void loop()
 {
 
   lastPingSucceeded = false;
-  ICMPEchoReply echoResult;  // we'll get the status here
+  EthernetICMPEchoReply echoResult;  // we'll get the status here
   Serial.println("Starting async ping.");
 
   // asynchStart will return false if we couldn't
@@ -172,6 +174,7 @@ void loop()
   } else {
     // huzzah
     lastPingSucceeded = true;
+    Serial.print(echoResult.data.time);
     sprintf(buffer,
             "Reply[%d] from: %d.%d.%d.%d: bytes=%d time=%ldms TTL=%d",
             echoResult.data.seq,
@@ -187,4 +190,3 @@ void loop()
   Serial.println(buffer);
   delay(500);
 }
-

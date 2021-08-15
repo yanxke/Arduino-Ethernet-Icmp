@@ -14,16 +14,16 @@
 
 #include <SPI.h>         
 #include <Ethernet.h>
-#include <ICMPPing.h>
+#include <EthernetICMP.h>
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED}; // max address for ethernet shield
 byte ip[] = {192,168,2,177}; // ip address for ethernet shield
-IPAddress pingAddr(74,125,26,147); // ip address to ping
+IPAddress pingAddr(1,1,1,1); // ip address to ping
 
 SOCKET pingSocket = 0;
 
 char buffer [256];
-ICMPPing ping(pingSocket, (uint16_t)random(0, 255));
+EthernetICMPPing ping(pingSocket, (uint16_t)random(0, 255));
 
 void setup() 
 {
@@ -34,7 +34,7 @@ void setup()
 
 void loop()
 {
-  ICMPEchoReply echoReply = ping(pingAddr, 4);
+  EthernetICMPEchoReply echoReply = ping(pingAddr, 4);
   if (echoReply.status == SUCCESS)
   {
     sprintf(buffer,
@@ -55,13 +55,3 @@ void loop()
   Serial.println(buffer);
   delay(500);
 }
-
-
-
-
-
-
-
-
-
-
