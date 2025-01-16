@@ -7,11 +7,7 @@ published by the Free Software Foundation.
 
 # Ethernet-ICMP Ping
 
-ICMP ping library for the Arduino
-
-To use, copy the icmp_ping directory into the libraries directory of your Arduino folder.
-
-e.g. cp ~/Arduino-Ethernet-Icmp/EthernetICMP /usr/share/arduino/libraries/EthernetICMP
+ICMP ping library for the Arduino, modified the file structure to work with PlatformIO directly using the git repository link.
 
 Then restart the Arduino software if necessary, and EthernetICMP should be available under the libraries dropdown.
 
